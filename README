@@ -1,0 +1,63 @@
+This Project is written in c++ and runs fine and complies with no errors and only one warming (something to do with passing NULL into time() for initialzing the srand() (ie. srand(time(NULL)) ) using xcode IDE.
+
+The Project uses the following classes (only header files listed for sake of space):
+
+/Account.h : This class creates and maintains the users account
+./Bond.h : The Bond Financial Object which has a name and a value and inherits from FinancialObject Abstract Base class
+./Broker.h : This is the Client Broker used to send infromation to the Server Broker via a string (theoritical TCP) and accepts input from Server Broker as a string
+./BrokerServer.h: Takes string from Broker, and locates appropriate server and then calls the Server Proxy
+./CallObject.h : Used to transform information from a Proxy to a Broker and vice versa for the client and server to use.
+./Client.h : Makes request to get the list of financial instruments form a Server
+./Client_ClientProxy_Interface.h : The interface between a Client and a Client Proxy using the proxy design pattern. Since the Client Broker talks to the client (passing information back) via a client proxy
+./ClientProxy.h : Work with Client to pass information to a Broker after converting client request into a Call Object type (an IDL)
+./Component.h : Abstract base class that groups FinancialObjects and Account together
+./Financial_Instrument_list.h: Owns the list of financial objects in the market getting requested by the servers servants and getting modified by the market maker
+./FinancialObject.h : Abstract base class to all the different financial objects, in this case bonds, stocks, moneymarket
+./MarketMaker.h : a class that modifies the values of all the financial objects randomly but with more +/- variation in stock and least for bonds
+./Message.h : I wanted to send market data messages to the message queue here instead of hard coding it in the MarketMaker
+./MessageQueue.h : i wanted this to be wher the marketmaker read its news informaiton and updates the financial objects
+./MoneyMarket.h : The MoneyMarket Financial Object which has a name and a value and inherits from FinancialObject Abstract Base class (this is less risky than stocks and more risky than bonds)
+./PricingVisitor.h : used to visit an account. i've implemented this altho not really using it since didn't get enough time to put it usefully in main
+./Robot.h : Abstract base class for different Robots that the user can call for create a portfolio, based on strategy design pattern
+./Robot1.h : robots 1 through 8 are called based on the users risklevel (1 calls robot1 and so on). robot one is least riskly robot and only invest in bonds with the money provided by the user. it keep insvesting until it can't any more. Robot8 is most riskly (correcponding to a risk level of 8) and only invest in stocks (which are most volatile). Robot2 through to 7 uses combinations of stocks, bonds, and moneymarkets to invest based on fixed percentage amount.
+./Robot2.h
+./Robot3.h
+./Robot4.h
+./Robot5.h
+./Robot6.h
+./Robot7.h
+./Robot8.h
+./Servant.h : has access to the list of stocks via the financialInstrumentLIst class
+./Servant2.h : has access to the list of bonds via the financialInstrumentLIst class
+./Servant3.h : has access to the list of moneymarkets via the financialInstrumentLIst class
+./Server.h : users its servants to return a list of financial objects to the user
+./ServerProxy.h : uses the server to return to the server broker list of financial objects via converting them into a CallObject (IDL)
+./SortFinancialObjectVectorASC.h : Sorts a list of financial objects from least value to highest value, basically a functor class
+./SortFinancialObjectVectorDSC.h : Sorts a list of financial objects from highest value to least value, basically a functor class
+./Stock.h : The Stock Financial Object which has a name and a value and inherits from FinancialObject Abstract Base class
+./UserFacade.h : this is basically a facade class to the user (the main program) where it handles all the interaction between the robots, accounts, clients, etc.
+
+Design Patterns used below list the patterns used and the respective classes using them:
+- Facade: between main function class the the UserFacade class. ie: the user provides a risk level and investment amount and the userfacade class will then go through its conditions and create the appropriate robot.
+- Strategy: between Robot and its sub Robots(1-8) for creating accounts
+- Template: between Robot and its sub Robots (several pure virtual methods and some not pure)
+- Composite: between Account and FinancialObejct where FinancailObejct contains stocks, bonds that are leafs that are part of an Account
+- Singleton: All the servants since a server should only have one servant reponsible for accessing a particular FinancialObject
+- Proxy: between the Client and Client Proxy class where the Client Broker (Broker) only talks to the Client Proxy to send information to the Client
+- Visitor: between Account and PricingVisitor where a PricingVisitor can be used to get the value of an account
+- Broker: between client, client proxy, callobject, broker, server broker, server proxy, and servants to pass information
+- Layers: between the client proxy and client broker since one is used to send information to a broker via a callobject and the other is used to send information to another borker via a string (same applied to server broker and server proxy), there is also a layer between userfacade class, robot, and account class where the account class is at the bottom of the abstraction and userfacade is at the highest level of abstraction or closest to the user
+
+
+The program begins with the main function doing all the object initialization and server registration and object linking where needed. Before the user start to provide input to play, he/she is told of the market volatility so they can choose a comfortable level of risk. Then the user is asked for input regarding their risk level and the amount of money they want to invest. Once the user provides this, it is send to a userfacade class that create a robot (depending on the users risk level where there are 8 robots, one for each risklevel and each with its own strategy for investing) to run and create an account for the user at time 0. Th robot creates an account by getting the appropriate financial object vector from a server via a client registered to the user facade. after time zero a market maker class starts to modify each of the financial objects based market volatility and the account is updated accordingly. The program runs for 30 seconds for total of 6 period after period 0 where each period representing a financial quarter. At the end of the program, all output of account movements per period are stored in a file and the user is told if they made money or lost money during the game. They user then has a choice if they want to play again or not.
+
+
+Although, based on the assignment requirements, i have gone beyond what was asked, i wanted to make note that i spend well over 50 hours on this project and tried to maximize my use of design patterns. I have lots of ideas of adding more to this, however, in the given time, i have tried to do as much as i possible can.
+
+I have provided a lot of code comments.
+
+I have little to limited Unit Testing in the code currently since i have done a lot of unit testing on the project and deleted those aspects in the code as i was building the project further.
+
+Moreover, this project has a feature of adding virtual Robots such that at the end of the game, the use can be notified about which risklevel (and hence strategy) would have been the best choice given the market conditions (ie. volatility, etc), however, I have not yet finished this feature and hence it is not working properly yet.
+
+I hope you enjoy the project!
