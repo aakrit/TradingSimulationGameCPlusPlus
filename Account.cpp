@@ -126,7 +126,9 @@ void Account::updateValues()
         updatedInvestedAmount += (*x).getCurrentValue();
     }
     cp.close();
+    
 }
+
 double Account::getUpdatedCurrentValue()
 {
     updatedTotalAccountValue = (totalAccountValue + (updatedInvestedAmount - investedAmount));
