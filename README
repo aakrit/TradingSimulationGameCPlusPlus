@@ -2,40 +2,40 @@ This Project is written in c++ and runs fine and complies with no errors and onl
 
 The Project uses the following classes (only header files listed for sake of space):
 
-/Account.h : This class creates and maintains the users account
-./Bond.h : The Bond Financial Object which has a name and a value and inherits from FinancialObject Abstract Base class
-./Broker.h : This is the Client Broker used to send infromation to the Server Broker via a string (theoritical TCP) and accepts input from Server Broker as a string
-./BrokerServer.h: Takes string from Broker, and locates appropriate server and then calls the Server Proxy
-./CallObject.h : Used to transform information from a Proxy to a Broker and vice versa for the client and server to use.
-./Client.h : Makes request to get the list of financial instruments form a Server
-./Client_ClientProxy_Interface.h : The interface between a Client and a Client Proxy using the proxy design pattern. Since the Client Broker talks to the client (passing information back) via a client proxy
-./ClientProxy.h : Work with Client to pass information to a Broker after converting client request into a Call Object type (an IDL)
-./Component.h : Abstract base class that groups FinancialObjects and Account together
-./Financial_Instrument_list.h: Owns the list of financial objects in the market getting requested by the servers servants and getting modified by the market maker
-./FinancialObject.h : Abstract base class to all the different financial objects, in this case bonds, stocks, moneymarket
-./MarketMaker.h : a class that modifies the values of all the financial objects randomly but with more +/- variation in stock and least for bonds
-./Message.h : I wanted to send market data messages to the message queue here instead of hard coding it in the MarketMaker
-./MessageQueue.h : i wanted this to be wher the marketmaker read its news informaiton and updates the financial objects
-./MoneyMarket.h : The MoneyMarket Financial Object which has a name and a value and inherits from FinancialObject Abstract Base class (this is less risky than stocks and more risky than bonds)
-./PricingVisitor.h : used to visit an account. i've implemented this altho not really using it since didn't get enough time to put it usefully in main
-./Robot.h : Abstract base class for different Robots that the user can call for create a portfolio, based on strategy design pattern
-./Robot1.h : robots 1 through 8 are called based on the users risklevel (1 calls robot1 and so on). robot one is least riskly robot and only invest in bonds with the money provided by the user. it keep insvesting until it can't any more. Robot8 is most riskly (correcponding to a risk level of 8) and only invest in stocks (which are most volatile). Robot2 through to 7 uses combinations of stocks, bonds, and moneymarkets to invest based on fixed percentage amount.
-./Robot2.h
-./Robot3.h
-./Robot4.h
-./Robot5.h
-./Robot6.h
-./Robot7.h
-./Robot8.h
-./Servant.h : has access to the list of stocks via the financialInstrumentLIst class
-./Servant2.h : has access to the list of bonds via the financialInstrumentLIst class
-./Servant3.h : has access to the list of moneymarkets via the financialInstrumentLIst class
-./Server.h : users its servants to return a list of financial objects to the user
-./ServerProxy.h : uses the server to return to the server broker list of financial objects via converting them into a CallObject (IDL)
-./SortFinancialObjectVectorASC.h : Sorts a list of financial objects from least value to highest value, basically a functor class
-./SortFinancialObjectVectorDSC.h : Sorts a list of financial objects from highest value to least value, basically a functor class
-./Stock.h : The Stock Financial Object which has a name and a value and inherits from FinancialObject Abstract Base class
-./UserFacade.h : this is basically a facade class to the user (the main program) where it handles all the interaction between the robots, accounts, clients, etc.
+Account : This class creates and maintains the users account
+Bond : The Bond Financial Object which has a name and a value and inherits from FinancialObject Abstract Base class
+Broker : This is the Client Broker used to send infromation to the Server Broker via a string (theoritical TCP) and accepts input from Server Broker as a string
+BrokerServer : Takes string from Broker, and locates appropriate server and then calls the Server Proxy
+CallObject : Used to transform information from a Proxy to a Broker and vice versa for the client and server to use.
+Client : Makes request to get the list of financial instruments form a Server
+Client_ClientProxy_Interface : The interface between a Client and a Client Proxy using the proxy design pattern. Since the Client Broker talks to the client (passing information back) via a client proxy
+ClientProxy : Work with Client to pass information to a Broker after converting client request into a Call Object type (an IDL)
+Component : Abstract base class that groups FinancialObjects and Account together
+Financial_Instrument_list: Owns the list of financial objects in the market getting requested by the servers servants and getting modified by the market maker
+FinancialObject : Abstract base class to all the different financial objects, in this case bonds, stocks, moneymarket
+MarketMaker: a class that modifies the values of all the financial objects randomly but with more +/- variation in stock and least for bonds
+Message: I wanted to send market data messages to the message queue here instead of hard coding it in the MarketMaker
+MessageQueue.h: i wanted this to be wher the marketmaker read its news informaiton and updates the financial objects
+MoneyMarket : The MoneyMarket Financial Object which has a name and a value and inherits from FinancialObject Abstract Base class (this is less risky than stocks and more risky than bonds)
+PricingVisitor : used to visit an account. i've implemented this altho not really using it since didn't get enough time to put it usefully in main
+Robot : Abstract base class for different Robots that the user can call for create a portfolio, based on strategy design pattern
+Robot1 : robots 1 through 8 are called based on the users risklevel (1 calls robot1 and so on). robot one is least riskly robot and only invest in bonds with the money provided by the user. it keep insvesting until it can't any more. Robot8 is most riskly (correcponding to a risk level of 8) and only invest in stocks (which are most volatile). Robot2 through to 7 uses combinations of stocks, bonds, and moneymarkets to invest based on fixed percentage amount.
+Robot2
+Robot3
+Robot4
+Robot5
+Robot6
+Robot7
+Robot8
+Servant : has access to the list of stocks via the financialInstrumentLIst class
+Servant2 : has access to the list of bonds via the financialInstrumentLIst class
+Servant3 : has access to the list of moneymarkets via the financialInstrumentLIst class
+Server : users its servants to return a list of financial objects to the user
+ServerProxy : uses the server to return to the server broker list of financial objects via converting them into a CallObject (IDL)
+SortFinancialObjectVectorASC : Sorts a list of financial objects from least value to highest value, basically a functor class
+SortFinancialObjectVectorDSC : Sorts a list of financial objects from highest value to least value, basically a functor class
+Stock : The Stock Financial Object which has a name and a value and inherits from FinancialObject Abstract Base class
+UserFacade : this is basically a facade class to the user (the main program) where it handles all the interaction between the robots, accounts, clients, etc.
 
 Design Patterns used below list the patterns used and the respective classes using them:
 - Facade: between main function class the the UserFacade class. ie: the user provides a risk level and investment amount and the userfacade class will then go through its conditions and create the appropriate robot.
